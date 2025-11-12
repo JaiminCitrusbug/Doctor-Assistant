@@ -1,4 +1,4 @@
 pgvector
 psycopg2-binary
 openai
-streaml
+streamlit
