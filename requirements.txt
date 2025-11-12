@@ -2,3 +2,4 @@ pgvector
 psycopg2-binary
 openai
 streamlit
+python-dotenv
