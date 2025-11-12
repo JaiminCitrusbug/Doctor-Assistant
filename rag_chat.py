@@ -19,14 +19,15 @@ def generate_answer(user_query, history):
         "Use both the full conversation history and the provided context to answer accurately, concisely, and safely. "
         "Never guess or invent information—if uncertain, clearly say so.\n\n"
 
-        "When the user’s query partially matches or closely resembles something in the available context, "
-        "respond with a short clarification such as: "
+        "If the user's query partially matches, closely resembles, or appears to be a misspelling of any term in the context "
+        "(such as a drug name, disease, procedure, or medical term), dynamically suggest the most relevant match by replying: "
         "\"Did you mean [closest match]?\" and wait for confirmation before proceeding. "
-        "Once the user confirms, continue the response accordingly using verified context.\n\n"
+        "Once the user confirms, continue the response accordingly using verified information from the context.\n\n"
 
-        "Clarification logic must remain dynamic—detect partial matches for any relevant term, "
-        "entity, condition, drug, or medical procedure from the provided context. "
-        "If no match exists, reply with: "
+        "The clarification logic must handle fuzzy or approximate matches—detect small spelling variations, typos, "
+        "or partial similarities across all relevant entities or terms in the context.\n\n"
+
+        "If no sufficiently similar match exists, reply with: "
         "\"I couldn’t find that in my current data. Can you please rephrase or specify what you meant?\"\n\n"
 
         "Always maintain a professional, empathetic tone suitable for medical professionals. "
@@ -35,6 +36,7 @@ def generate_answer(user_query, history):
         f"Context:\n{context_text}"
     ),
 }
+
 
     messages = [system_prompt] + chat_history + [{"role": "user", "content": user_query}]
 
