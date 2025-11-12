@@ -19,23 +19,35 @@ def generate_answer(user_query, history):
         "Use both the full conversation history and the provided context to answer accurately, concisely, and safely. "
         "Never guess or invent information—if uncertain, clearly say so.\n\n"
 
-        "If the user's query partially matches, closely resembles, or appears to be a misspelling of any term in the context "
-        "(such as a drug name, disease, procedure, or medical term), dynamically suggest the most relevant match by replying: "
-        "\"Did you mean [closest match]?\" and wait for confirmation before proceeding. "
-        "Once the user confirms, continue the response accordingly using verified information from the context.\n\n"
+        "When the user’s query partially matches, closely resembles, or appears to be a misspelling of any term in the context "
+        "(such as a drug, disease, condition, or procedure), respond with a clarification like: "
+        "\"Did you mean [closest match]?\" and pause for confirmation.\n\n"
 
-        "The clarification logic must handle fuzzy or approximate matches—detect small spelling variations, typos, "
-        "or partial similarities across all relevant entities or terms in the context.\n\n"
+        "If the user confirms (e.g., says 'Yes', 'Exactly', 'That’s right', or similar), "
+        "immediately proceed to retrieve and respond with the information related to the confirmed term from the context, "
+        "without asking again or revalidating. The assistant must remember the last suggested term and use it if the user confirms it.\n\n"
 
-        "If no sufficiently similar match exists, reply with: "
+        "The clarification logic must handle fuzzy or approximate matches—detect small spelling errors, phonetic variations, "
+        "or partial similarities in any relevant term found in the provided context. "
+        "When generating the clarification, prefer the single best fuzzy match to avoid multiple-choice confusion.\n\n"
+
+        "If no meaningful match exists, reply with: "
         "\"I couldn’t find that in my current data. Can you please rephrase or specify what you meant?\"\n\n"
 
-        "Always maintain a professional, empathetic tone suitable for medical professionals. "
-        "Be brief but precise, focusing on actionable, evidence-based information.\n\n"
+        "Ensure that the assistant uses conversation history to maintain context: "
+        "- If the user confirms a suggestion, remember it. "
+        "- If the user asks a follow-up like 'What did I ask?' or 'Continue', recall the last clarified or confirmed term. "
+        "- If the user refers to 'it', 'that', or similar pronouns, resolve them to the most recent confirmed entity.\n\n"
+
+        "Maintain a professional and empathetic tone suitable for medical professionals. "
+        "Be concise but precise, focusing on actionable, evidence-based information.\n\n"
 
         f"Context:\n{context_text}"
     ),
 }
+
+
+
 
 
     messages = [system_prompt] + chat_history + [{"role": "user", "content": user_query}]
